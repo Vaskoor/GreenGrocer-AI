@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# env / secrets (Gemini API key)
+.env
+.env.*
+!.env.example
+
+# build info
+*.tsbuildinfo
