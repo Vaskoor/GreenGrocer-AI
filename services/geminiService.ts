@@ -359,12 +359,12 @@ export class GreenGrocerAgent {
   public available = false;
 
   /**
-   * Read the API key from process.env.API_KEY or process.env.GEMINI_API_KEY.
+   * Read the API key from import.meta.env.VITE_API_KEY or import.meta.env.VITE_GEMINI_API_KEY.
    * If absent, the agent runs in offline mode and every method returns a
    * graceful canned response so the UI still works for a demo.
    */
   constructor() {
-    const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY || "";
+    const apiKey = import.meta.env.VITE_API_KEY || import.meta.env.VITE_GEMINI_API_KEY || "";
     if (apiKey) {
       try {
         this.ai = new GoogleGenAI({ apiKey });
