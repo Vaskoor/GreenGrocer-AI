@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Sparkles, Bot, Leaf, Truck, ShieldCheck } from 'lucide-react';
 
 interface HeroProps {
@@ -27,7 +28,10 @@ const BADGES = [
 /** Two-column hero with gradient bg, decorative blobs, and floating card. */
 const Hero: React.FC<HeroProps> = ({ onShopClick, onChatClick }) => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-white">
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }} className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-white">
       {/* Decorative blobs */}
       <div
         className="absolute top-0 right-0 w-96 h-96 bg-primary-100/60 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"
@@ -109,7 +113,7 @@ const Hero: React.FC<HeroProps> = ({ onShopClick, onChatClick }) => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

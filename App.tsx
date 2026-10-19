@@ -20,6 +20,7 @@ import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import AdminDashboard from './components/AdminDashboard';
 import AIChat from './components/AIChat';
+import MobileBottomNav from './components/MobileBottomNav';
 import { PRODUCTS, SAMPLE_ORDERS, SAMPLE_RECIPES } from './constants';
 import { GreenGrocerAgent } from './services/geminiService';
 import type {
@@ -421,6 +422,12 @@ const App: React.FC = () => {
         onClose={() => setIsChatOpen(false)}
         agent={agent}
         toolHandlers={toolHandlers}
+      />
+      <MobileBottomNav
+        currentView={view}
+        cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
+        onNavigate={setView}
+        onCartClick={() => setCartOpen(true)}
       />
     </div>
   );

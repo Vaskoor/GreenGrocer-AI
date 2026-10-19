@@ -1,39 +1,23 @@
-/**
- * GreenGrocer AI — Navbar
- * Sticky top navigation with brand, view tabs, search input, cart badge
- * with count, and a responsive mobile drawer.
- *
- * MIT License — Copyright (c) 2025 GreenGrocer AI
- */
-
-import React, { useState } from 'react';
-import { ShoppingCart, Menu, Search, Sprout, X } from 'lucide-react';
-import type { ViewState } from '../types';
+import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ShoppingCart, Menu, Search, Sprout, X } from "lucide-react";
+import type { ViewState } from "../types";
 
 interface NavbarProps {
-  /** Total item count across the cart. */
   cartCount: number;
-  /** Current view so the active nav tab can be highlighted. */
   currentView: ViewState;
-  /** Click handler for the cart button. */
   onCartClick: () => void;
-  /** Navigate to a different view. */
   onNavigate: (view: ViewState) => void;
-  /** Submit a search query. */
   onSearch: (query: string) => void;
 }
 
-/** Navigation tabs (Market maps to HOME; Shop is a sub-view of Market). */
 const NAV_ITEMS: { label: string; view: ViewState; alsoActive?: ViewState[] }[] = [
-  { label: 'Market', view: 'HOME', alsoActive: ['SHOP'] },
-  { label: 'Recipes', view: 'RECIPES' },
-  { label: 'Orders', view: 'ORDERS' },
-  { label: 'Admin', view: 'ADMIN' },
+  { label: "Market", view: "HOME", alsoActive: ["SHOP"] },
+  { label: "Recipes", view: "RECIPES" },
+  { label: "Orders", view: "ORDERS" },
+  { label: "Admin", view: "ADMIN" },
 ];
 
-/**
- * Sticky, blurred navbar with desktop tabs and a slide-down mobile drawer.
- */
 const Navbar: React.FC<NavbarProps> = ({
   cartCount,
   currentView,
@@ -41,14 +25,14 @@ const Navbar: React.FC<NavbarProps> = ({
   onNavigate,
   onSearch,
 }) => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchValue.trim()) {
       onSearch(searchValue.trim());
-      setSearchValue('');
+      setSearchValue("");
       setMobileOpen(false);
     }
   };
@@ -57,125 +41,141 @@ const Navbar: React.FC<NavbarProps> = ({
     currentView === item.view || (item.alsoActive?.includes(currentView) ?? false);
 
   return (
-    <nav className="sticky top-0 z-30 w-full bg-white/90 backdrop-blur-md border-b border-gray-100">
+    <nav className="sticky top-0 z-30 w-full bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+        <div className="flex h-16 items-center justify-between gap-2">
+          {/* Brand */}
           <button
-            onClick={() => onNavigate('HOME')}
-            className="flex-shrink-0 flex items-center gap-2"
-            aria-label="GreenGrocer AI home"
+            onClick={() => { onNavigate("HOME"); setMobileOpen(false); }}
+            className="flex items-center gap-2 shrink-0"
           >
-            <span className="p-1.5 bg-primary-600 rounded-lg">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-md">
               <Sprout className="h-5 w-5 text-white" />
-            </span>
+            </div>
             <span className="text-lg font-bold text-gray-900 tracking-tight hidden sm:inline">
-              GreenGrocer <span className="text-primary-600">AI</span>
+              GreenGrocer
             </span>
           </button>
 
-          {/* Desktop nav */}
+          {/* Desktop nav tabs */}
           <div className="hidden md:flex items-center gap-1">
-            {NAV_ITEMS.map(item => {
-              const active = isActive(item);
-              return (
-                <button
-                  key={item.view}
-                  onClick={() => onNavigate(item.view)}
-                  aria-current={active ? 'page' : undefined}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    active
-                      ? 'text-primary-700 bg-primary-50'
-                      : 'text-gray-600 hover:text-primary-700 hover:bg-gray-50'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item.label}
+                onClick={() => onNavigate(item.view)}
+                className={"relative rounded-lg px-3 py-2 text-sm font-medium transition-colors " + (
+                  isActive(item)
+                    ? "text-green-700 bg-green-50"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                )}
+              >
+                {item.label}
+                {isActive(item) && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full bg-green-600"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </button>
+            ))}
           </div>
 
           {/* Search + cart + mobile toggle */}
           <div className="flex items-center gap-2 sm:gap-3">
             <form onSubmit={handleSubmit} className="hidden sm:flex items-center relative">
-              <Search
-                className="absolute left-3 w-4 h-4 text-gray-400 pointer-events-none"
-                aria-hidden="true"
-              />
+              <Search className="absolute left-3 h-4 w-4 text-gray-400" aria-hidden="true" />
               <input
                 type="text"
                 value={searchValue}
-                onChange={e => setSearchValue(e.target.value)}
-                placeholder="Search produce..."
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder="Search produce…"
+                className="w-32 md:w-48 rounded-full border border-gray-200 bg-gray-50 py-2 pl-9 pr-4 text-sm text-gray-700 placeholder-gray-400 focus:border-green-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-100 transition-all"
                 aria-label="Search products"
-                className="pl-9 pr-3 py-2 w-40 lg:w-56 text-sm bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 focus:bg-white transition"
               />
             </form>
 
-            <button
+            {/* Cart button with bounce animation */}
+            <motion.button
               onClick={onCartClick}
-              aria-label={`Cart with ${cartCount} ${cartCount === 1 ? 'item' : 'items'}`}
-              className="relative p-2 text-gray-600 hover:text-primary-700 hover:bg-gray-50 rounded-lg transition"
+              className="relative flex h-10 w-10 items-center justify-center rounded-full bg-green-50 hover:bg-green-100 transition-colors"
+              aria-label="Open cart"
+              whileTap={{ scale: 0.9 }}
             >
-              <ShoppingCart className="h-5 w-5" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[10px] font-bold leading-none text-white bg-secondary-500 rounded-full ring-2 ring-white">
-                  {cartCount}
-                </span>
-              )}
-            </button>
+              <ShoppingCart className="h-5 w-5 text-green-700" />
+              <AnimatePresence>
+                {cartCount > 0 && (
+                  <motion.span
+                    key={cartCount}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                    className="absolute -top-1 -right-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-rose-500 px-1 text-xs font-bold text-white shadow-md"
+                  >
+                    {cartCount}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
 
+            {/* Mobile menu toggle */}
             <button
-              onClick={() => setMobileOpen(o => !o)}
-              aria-label="Toggle navigation menu"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden flex h-10 w-10 items-center justify-center rounded-lg hover:bg-gray-50 transition-colors"
+              aria-label="Toggle menu"
               aria-expanded={mobileOpen}
-              className="md:hidden p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile drawer */}
+      {/* Mobile drawer with AnimatePresence */}
+      <AnimatePresence>
         {mobileOpen && (
-          <div className="md:hidden border-t border-gray-100 py-3 space-y-1">
-            <form onSubmit={handleSubmit} className="sm:hidden relative mb-2">
-              <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
-                aria-hidden="true"
-              />
-              <input
-                type="text"
-                value={searchValue}
-                onChange={e => setSearchValue(e.target.value)}
-                placeholder="Search produce..."
-                aria-label="Search products"
-                className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
-              />
-            </form>
-            {NAV_ITEMS.map(item => {
-              const active = isActive(item);
-              return (
-                <button
-                  key={item.view}
-                  onClick={() => {
-                    onNavigate(item.view);
-                    setMobileOpen(false);
-                  }}
-                  aria-current={active ? 'page' : undefined}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    active
-                      ? 'text-primary-700 bg-primary-50'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="md:hidden overflow-hidden border-t border-gray-100 bg-white"
+          >
+            <div className="px-4 py-3 space-y-1">
+              {/* Mobile search */}
+              <form onSubmit={handleSubmit} className="flex items-center relative mb-3">
+                <Search className="absolute left-3 h-4 w-4 text-gray-400" aria-hidden="true" />
+                <input
+                  type="text"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  placeholder="Search produce…"
+                  className="w-full rounded-full border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-4 text-sm focus:border-green-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-100"
+                  aria-label="Search products"
+                />
+              </form>
+              {/* Mobile nav items */}
+              {NAV_ITEMS.map((item, i) => (
+                <motion.button
+                  key={item.label}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: i * 0.05 }}
+                  onClick={() => { onNavigate(item.view); setMobileOpen(false); }}
+                  className={"w-full rounded-lg px-3 py-3 text-left text-sm font-medium transition-colors " + (
+                    isActive(item)
+                      ? "text-green-700 bg-green-50"
+                      : "text-gray-700 hover:bg-gray-50"
+                  )}
                 >
                   {item.label}
-                </button>
-              );
-            })}
-          </div>
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </nav>
   );
 };

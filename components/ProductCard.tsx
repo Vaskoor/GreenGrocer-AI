@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Plus, Leaf, Star, Sun } from 'lucide-react';
 import type { Product } from '../types';
 
@@ -60,7 +61,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAdd, onSelect }) =
   const ratingCount = product.ratingCount;
 
   return (
-    <article className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col h-full">
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      whileHover={{ y: -4 }} className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col h-full">
       {/* Image + badges */}
       <button
         onClick={() => onSelect(product)}
@@ -120,7 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAdd, onSelect }) =
           </button>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 };
 
