@@ -53,6 +53,22 @@
 }
 </script>
 <link rel="stylesheet" href="/index.css">
+<script>
+window.addEventListener("error", function(e) {
+  var root = document.getElementById("root");
+  if (root && root.innerHTML.length === 0) {
+    root.innerHTML = '<div style="padding:20px;font-family:monospace;font-size:14px;color:red;white-space:pre-wrap;">Error: " + e.message + "
+
+File: " + (e.filename||"") + ":" + (e.lineno||"") + "</div>';
+  }
+});
+window.addEventListener("unhandledrejection", function(e) {
+  var root = document.getElementById("root");
+  if (root && root.innerHTML.length === 0) {
+    root.innerHTML = '<div style="padding:20px;font-family:monospace;font-size:14px;color:red;white-space:pre-wrap;">Unhandled: " + (e.reason && e.reason.message || e.reason || "unknown") + "</div>';
+  }
+});
+</script>
 </head>
   <body class="bg-gray-50 text-gray-900 font-sans antialiased">
     <div id="root"></div>

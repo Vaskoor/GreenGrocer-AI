@@ -86,8 +86,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({
       )
         return false;
       // Search
-      if (filterState.searchQuery.trim()) {
-        const q = filterState.searchQuery.toLowerCase();
+      if (filterState.search.trim()) {
+        const q = filterState.search.toLowerCase();
         const matches =
           p.name.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
@@ -121,7 +121,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   const clearFilters = () => {
     setFilterState({
       categories: [],
-      searchQuery: '',
+      search: '',
       sortOption: 'featured',
       seasonalOnly: false,
       organicOnly: false,
@@ -148,9 +148,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           <input
             id="grid-search"
             type="text"
-            value={filterState.searchQuery}
+            value={filterState.search}
             onChange={e =>
-              setFilterState(prev => ({ ...prev, searchQuery: e.target.value }))
+              setFilterState(prev => ({ ...prev, search: e.target.value }))
             }
             placeholder="Tomatoes, kale..."
             aria-label="Search products"

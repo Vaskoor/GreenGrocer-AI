@@ -400,39 +400,37 @@ The catalog lives in [`constants.ts`](./constants.ts) as a single typed `PRODUCT
 
 ## 📸 Screenshots
 
-> Screenshots are committed under `docs/screenshots/` and embedded below. These were captured by `agent-browser` against a live `vite preview` server as proof that the deployed app runs.
+> Screenshots are committed under `docs/screenshots/` and embedded below. These were captured by `agent-browser` against a live `vite dev` server as proof that the deployed app runs.
 
-### Home / Market
+### Home / Market Hero
 
-![Home / Market](docs/screenshots/01-home-hero.png)
+![Home / Market Hero](docs/screenshots/01-home-hero.png)
 
-Sticky navbar · hero header · 4-column responsive product grid · "Ask Sprout" floating bubble.
+Sticky navbar · hero header "Fresh from the Farm, Powered by AI" · "Shop Market" + "Ask Sprout" CTAs · trust badges (100% Organic, Free Delivery over $50, Farm-Direct) · Sprout suggestion card.
 
-### Shop with Filters
+### Product Grid (Market page)
 
-![Shop with Filters](docs/screenshots/02-shop.png)
+![Product Grid](docs/screenshots/02-products.png)
 
-Category, search, sort, seasonal, organic, and price filters — combinable in real time.
+Navigation bar with Market/Recipes/Orders/Admin · search bar · cart icon · product cards with images, organic leaf badges, seasonal badges, ratings, prices, and quick-add buttons.
 
-### Product Grid
+### Featured Products
 
-![Product Grid](docs/screenshots/03-products.png)
+![Featured Products](docs/screenshots/03-featured.png)
 
-Product cards with images, organic leaf badges, seasonal badges, ratings, prices, and quick-add buttons.
+"Featured Fresh Picks" section — curated product cards with photos, names, prices, and "Add" buttons in a responsive grid.
 
 ### AI Chat (Sprout)
 
-![AI Chat](docs/screenshots/04-ai-chat.png)
+![AI Chat](docs/screenshots/05-ai-chat.png)
 
-Sprout panel — message list with role attribution, loading state, suggested prompts, tool-call traces.
+Sprout AI assistant panel — message list with role attribution, suggested prompts, and tool-call traces. The floating "Ask Sprout" bubble opens the chat overlay.
 
-### Desktop View
+### Mobile View
 
-![Desktop View](docs/screenshots/05-desktop.png)
+![Mobile View](docs/screenshots/06-mobile.png)
 
-Responsive layout at 1280px — centered card-width column with gradient background.
-
-> **Note:** The app uses `@google/genai` (Gemini) which references Node.js globals (`process`, `global`, `Buffer`) at runtime. Browser polyfills have been added to `index.html` + `process.env` replaced with `import.meta.env` in `geminiService.ts` for browser compatibility. Full rendering requires a valid `GEMINI_API_KEY` — see [Quick Start](#-quick-start).
+Responsive mobile layout at 390px — hero with CTAs, trust badges, and Sprout suggestion card, all optimized for touch.
 
 ---
 
