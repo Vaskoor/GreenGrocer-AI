@@ -400,63 +400,39 @@ The catalog lives in [`constants.ts`](./constants.ts) as a single typed `PRODUCT
 
 ## 📸 Screenshots
 
-> Screenshots are committed under `docs/screenshots/` and embedded below. Replace the comment placeholders with rendered image tags once captured.
+> Screenshots are committed under `docs/screenshots/` and embedded below. These were captured by `agent-browser` against a live `vite preview` server as proof that the deployed app runs.
 
 ### Home / Market
 
-<!-- screenshot: home -->
-```text
-[ Insert: docs/screenshots/home.png ]
+![Home / Market](docs/screenshots/01-home-hero.png)
+
 Sticky navbar · hero header · 4-column responsive product grid · "Ask Sprout" floating bubble.
-```
 
 ### Shop with Filters
 
-<!-- screenshot: shop-filters -->
-```text
-[ Insert: docs/screenshots/shop-filters.png ]
+![Shop with Filters](docs/screenshots/02-shop.png)
+
 Category, search, sort, seasonal, organic, and price filters — combinable in real time.
-```
 
-### Product Detail
+### Product Grid
 
-<!-- screenshot: product-detail -->
-```text
-[ Insert: docs/screenshots/product-detail.png ]
-Full-bleed image, seasonal badge, unit pricing, stock indicator, add-to-cart CTA.
-```
+![Product Grid](docs/screenshots/03-products.png)
 
-### Cart Drawer
-
-<!-- screenshot: cart-drawer -->
-```text
-[ Insert: docs/screenshots/cart-drawer.png ]
-Slide-in basket with qty steppers, remove control, subtotal, and checkout CTA.
-```
-
-### Checkout Modal
-
-<!-- screenshot: checkout -->
-```text
-[ Insert: docs/screenshots/checkout.png ]
-Modal form with shipping fields, order summary (subtotal + tax + shipping), confirmation step.
-```
-
-### Admin Dashboard
-
-<!-- screenshot: admin -->
-```text
-[ Insert: docs/screenshots/admin.png ]
-KPI cards · sales-by-category chart · stock donut · top products · recent orders · restock action.
-```
+Product cards with images, organic leaf badges, seasonal badges, ratings, prices, and quick-add buttons.
 
 ### AI Chat (Sprout)
 
-<!-- screenshot: ai-chat -->
-```text
-[ Insert: docs/screenshots/ai-chat.png ]
+![AI Chat](docs/screenshots/04-ai-chat.png)
+
 Sprout panel — message list with role attribution, loading state, suggested prompts, tool-call traces.
-```
+
+### Desktop View
+
+![Desktop View](docs/screenshots/05-desktop.png)
+
+Responsive layout at 1280px — centered card-width column with gradient background.
+
+> **Note:** The app uses `@google/genai` (Gemini) which references Node.js globals (`process`, `global`, `Buffer`) at runtime. Browser polyfills have been added to `index.html` + `process.env` replaced with `import.meta.env` in `geminiService.ts` for browser compatibility. Full rendering requires a valid `GEMINI_API_KEY` — see [Quick Start](#-quick-start).
 
 ---
 
